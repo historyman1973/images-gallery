@@ -4,3 +4,4 @@
 .env.development.local
 .env.test.local
 .env.production.local
+api/__pycache__/main.cpython-310.pyc
