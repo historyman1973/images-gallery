@@ -8,6 +8,8 @@ const ImageCard = ({ image, deleteImage }) => {
       <Card.Body>
         <Card.Title>{image.title.toUpperCase()}</Card.Title>
         <Card.Text>{image.description || image.alt_description}</Card.Text>
+        <footer className="blockquote-footer">{image.user.name}</footer>
+        <hr></hr>
         <Button variant="primary" onClick={() => deleteImage(image.id)}>
           Delete
         </Button>
