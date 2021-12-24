@@ -1,4 +1,12 @@
 {
+    "eslint.validate": [
+        "html",
+        "javascript",
+        "javascriptreact"
+    ],
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
     "python.linting.pycodestyleEnabled": true,
     "python.linting.pycodestyleArgs": [
         "--max-line-length=88"
