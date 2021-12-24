@@ -41,12 +41,18 @@ const App = () => {
   };
 
   const handleSaveImage = async (id) => {
+    // Find the id of the current image (which is being saved)
     const imageToBeSaved = images.find((image) => image.id === id);
+    // Add a property called saved to the current image
     imageToBeSaved.saved = true;
 
     try {
+      // Post the image to be saved (which will now include the imageToBeSaved field)
       const res = await axios.post(`${API_URL}/images`, imageToBeSaved);
+      // If the image is posted to the db without error (which you can tell from the inserted_id field), then....
       if(res.data?.inserted_id) {
+        // Take the images array in the state and iterate over it, pick out the image whose id matches the image being saved and add the saved field to just that image,
+        // otherwise, just leave the image as it is (without the saved field)
         setImages(images.map((image) => 
         image.id === id ? {...image, saved: true} : image)
         );
