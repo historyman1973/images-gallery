@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Header';
 import Search from './components/Search';
 import ImageCard from './components/ImageCard';
 import Spinner from './components/Spinner';
 import { Container, Row, Col } from 'react-bootstrap';
+
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:5050';
 
@@ -19,8 +22,10 @@ const App = () => {
       const res = await axios.get(`${API_URL}/images`);
       setImages(res.data || []);
       setLoading(false);
+      toast.success(`Saved images downloaded`);
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -32,8 +37,10 @@ const App = () => {
     try {
       const res = await axios.get(`${API_URL}/new-image?query=${word}`);
       setImages([{ ...res.data, title: word }, ...images]);
+      toast.info(`New image ${word.toUpperCase()} was found`)
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
 
     setWord('');
@@ -44,9 +51,11 @@ const App = () => {
       const res = await axios.delete(`${API_URL}/images/${id}`);
       if (res.data?.deleted_id) {
         setImages(images.filter((image) => image.id !== id));
+        toast.warn(`Image ${images.find((i) => i.id === id).title.toUpperCase()} was deleted`);
       }
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -68,9 +77,11 @@ const App = () => {
             image.id === id ? { ...image, saved: true } : image
           )
         );
+        toast.info(`Image ${imageToBeSaved.title.toUpperCase()} was saved`)
       }
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -101,6 +112,7 @@ const App = () => {
           </Container>
         </>
       )}
+      <ToastContainer position="bottom-right" />
     </div>
   );
 };
